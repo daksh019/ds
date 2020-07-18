@@ -226,16 +226,37 @@ class BSTree {
     toRemoveNode = null;
     return true;
   }
+
+  findHeight(node) {
+    if (node.left === null && node.right === null) {
+      return 1;
+    } else {
+      let heightLeftSubtree = 0;
+      let heightRightSubtree = 0;
+      if (node.left !== null) { 
+        heightLeftSubtree = this.findHeight(node.left);
+      } 
+      if (node.right !== null) {
+        heightRightSubtree = this.findHeight(node.right);
+      }
+      return heightLeftSubtree > heightRightSubtree ? heightLeftSubtree + 1 : heightRightSubtree + 1;
+    }
+  }
 }
 
-function initBST() {
-  const exampleBst = new BSTree(23);
-  exampleBst.insertData(45);
-  exampleBst.insertData(16);
-  exampleBst.insertData(37);
-  exampleBst.insertData(3);
-  exampleBst.insertData(99);
-  exampleBst.insertData(22);
+function initBST(list) {
+  console.log("creating tree", list);
+  if (list.length === 0) { 
+    console.error("Cannot create bst with no element");
+    return null;
+  }
+  const exampleBst = new BSTree(list[0]);
+  list.forEach((elem, index) => {
+    if (index !== 0) { 
+      exampleBst.insertData(elem)
+    }
+  });
+  console.log("done creating the tree");
   return exampleBst;
 }
 
@@ -248,13 +269,14 @@ function printTraversals(tree) {
 }
 
 function testDeletions() {
+  const list = [23, 45, 16, 37, 3, 99, 22];
   console.log("testing for removal of 99");
-  let exampleBst = initBST();
+  let exampleBst = initBST(list);
   console.log(exampleBst.removeNode(99));
   printTraversals(exampleBst);
 
   console.log("testing for removal of 23");
-  // exampleBst = initBST();
+  // exampleBst = initBST(list);
   console.log(exampleBst.removeNode(23));
   printTraversals(exampleBst);
 
@@ -271,4 +293,23 @@ function testDeletions() {
   console.log("max value", exampleBst.searchMaxValue());
 }
 
-testDeletions();
+function testHeight() { 
+  const list = [23, 45, 16, 37, 3, 99, 22];
+  const exampleTree = initBST(list);
+  const ht = exampleTree.findHeight(exampleTree.root);
+  console.log(ht);
+
+  const sortedList = [1, 2, 3, 4, 5];
+  const skewedTree = initBST(sortedList);
+  const skewedHt = skewedTree.findHeight(skewedTree.root);
+  console.log(skewedHt);
+  console.assert(skewedHt === sortedList.length);
+
+  const sortedList2 = [5,4,3,2,1];
+  const skewedTree2 = initBST(sortedList2);
+  const skewedHt2 = skewedTree2.findHeight(skewedTree.root);
+  console.log(skewedHt2);
+  console.assert(skewedHt2 === sortedList2.length);
+}
+
+testHeight();
