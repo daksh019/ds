@@ -11,6 +11,18 @@ class BSTree {
     this.root = new BSTNode(element, null, null);
   }
 
+  /**
+   * Calling the node to inserted as inode.
+   * The insertion will happen as a leaf. Meaning inode will become a leaf.
+   * 
+   * Each node in the tree begining from the root is compared to the inode data.
+   * Calling compared node as currNode.
+   * 
+   * If currNode has value less than inode and if currNode has right spot as vacant (null)
+   * then this is node where insertion will happen else the node in the right will serve as currNode.
+   * Similar will happen for left direction.
+   * This will happen till a vacant spot either to right or left is found.
+  */
   findInsertionNode(data) {
     let currNode = this.root;
     let insertionNode = null;
@@ -151,6 +163,17 @@ class BSTree {
     return node !== null;
   }
 
+  /**
+  * To remove a node, first find the node to be removed. 
+  * If leaf node, find parent node, delete the node and set the child ref in parent node to null;
+  * If non leaf node -> then either find the min value in right subtree or max in left sub tree. (replacement node)
+  * set the left reference and right reference from toBeRemovedNode in the replacement node. 
+  * For the parent of the toRemoveNode -> if toRemoveNode is left child set the replacement node as left child. 
+  * For the parent of the toRemoveNode -> if toRemoveNode is right child set the replacement node as left child. 
+  * If no parent then its root node and simply promote the replacement node as root node. 
+  * Remove the toBeRemovedNode.
+  * Set the parents reference to null. 
+  */
   removeNode(value) {
     let { currNode: toRemoveNode, parentNode } = this.findNodeWithParent(value);
     if (!toRemoveNode) {
