@@ -5,11 +5,20 @@ function swapArrayElem(arr, pos1, pos2) {
   return arr;
 }
 
+
+/**
+ * The selection sort is basically position based sort.
+ * The first pos in the list must contain the lowest value and so on.
+ * So each pos beginning from first pos 
+ * is compared to all other pos in the array and in each comparison the smaller value is kept at this pos. 
+ * This happens for all pos - so total iterations is length - 1 coz the last pos has no one to be compared to.
+ * In each iteration comparison must happen from first pos for that iteration to the last pos - (lenght - 1) of the list.
+*/
 function selectionSort(arr) {
-  for (let outerIndex = 0; outerIndex < arr.length - 1; outerIndex++) {
+  for (let posToCompare = 0; posToCompare < arr.length - 1; posToCompare++) {
     let smallest = null;
     for (
-      let innerIndex = outerIndex;
+      let innerIndex = posToCompare;
       innerIndex <= arr.length - 1;
       innerIndex++
     ) {
@@ -18,11 +27,12 @@ function selectionSort(arr) {
       } else {
         if (arr[innerIndex] < smallest) {
           smallest = arr[innerIndex];
-          swapArrayElem(arr, outerIndex, innerIndex);
+          swapArrayElem(arr, posToCompare, innerIndex);
           innerIndex++;
         }
       }
     }
+    console.log(arr);
   }
 }
 
